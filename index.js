@@ -1,7 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
-import pkg from "pg"; // Correctly import pg
-const { Pool } = pkg; // Destructure to get Pool
+import { createClient } from "@supabase/supabase-js"; // Import Supabase client
 import dotenv from "dotenv";
 
 const app = express();
@@ -9,21 +8,26 @@ const port = 4000;
 
 dotenv.config();
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
-  max: 5,
-  min: 2,
-  idleTimeoutMillis: 600000,
-});
+// Initialize Supabase client
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 let quiz = [];
 
 async function fetchQuizData() {
   try {
-    const res = await pool.query("SELECT * FROM capitals");
-    quiz = res.rows;
+    const { data, error } = await supabase
+      .from('capitals')
+      .select('*');
+
+    if (error) {
+      throw error;
+    }
+    
+    quiz = data;
   } catch (err) {
-    console.error("Error executing query", err.stack);
+    console.error("Error fetching quiz data", err);
   }
 }
 
@@ -41,14 +45,15 @@ app.get("/", async (req, res) => {
   await fetchQuizData(); // Fetch quiz data before proceeding
   await nextQuestion();
   res.render("index.ejs", { question: currentQuestion });
+  console.log(currentQuestion);
 });
 
-// POST a new post
+// POST a new answer
 app.post("/submit", async (req, res) => {
   let answer = req.body.answer.trim();
   let isCorrect = false;
 
-  if (currentQuestion.capital.toLowerCase() === answer.toLowerCase()) {
+  if (currentQuestion.capital_name.toLowerCase() === answer.toLowerCase()) {
     totalCorrect++;
     isCorrect = true;
   }
@@ -62,8 +67,8 @@ app.post("/submit", async (req, res) => {
 });
 
 async function nextQuestion() {
-  const randomCountry = quiz[Math.floor(Math.random() * quiz.length)];
-  currentQuestion = randomCountry;
+  const randomIndex = Math.floor(Math.random() * quiz.length);
+  currentQuestion = quiz[randomIndex];
 }
 
 app.listen(port, () => {
