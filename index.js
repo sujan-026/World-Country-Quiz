@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { Pool } from "pg"; // Correctly import Pool from pg
+import pkg from "pg"; // Correctly import pg
+const { Pool } = pkg; // Destructure to get Pool
 import dotenv from "dotenv";
 
 const app = express();
