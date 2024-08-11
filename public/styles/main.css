@@ -1,63 +1,87 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-image: url(../images/background.jpg);
   background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
   background-size: cover;
   font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  max-width: 40%;
-  height: 300px;
-  margin: 15% auto;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding-top: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-sizing: border-box;
+  backdrop-filter: blur(5px);
 }
 
 h1 {
   text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 h3 {
   margin: 0;
+  font-size: 18px;
+  color: #333;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .answer-container {
   width: 100%;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 input {
   text-align: center;
-  width: 30%;
+  width: 100%;
+  max-width: 300px;
   margin: 10px auto;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 button {
   font-weight: 800;
   letter-spacing: 2px;
-  font-size: large;
+  font-size: 18px;
   display: block;
   width: 100%;
-  padding: 10px;
+  padding: 15px;
   background-color: #ffca00;
-  color: white;
+  color: #333;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .horizontal-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 button:hover {
@@ -67,7 +91,10 @@ button:hover {
 #result {
   text-align: center;
   font-size: 24px;
+  color: #333;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
+
 
 .checkmark {
   color: transparent;
@@ -80,21 +107,13 @@ button:hover {
 }
 
 @keyframes checkmark {
-  0% {
-    color: transparent;
-  }
-  100% {
-    color: green;
-  }
+  0% { color: transparent; }
+  100% { color: green; }
 }
 
 @keyframes cross {
-  0% {
-    color: transparent;
-  }
-  100% {
-    color: red;
-  }
+  0% { color: transparent; }
+  100% { color: red; }
 }
 
 .restart-button {
@@ -108,4 +127,75 @@ button:hover {
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, color 0.3s;
+}
+
+/* Small devices (phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .container {
+    width: 90%;
+    height: auto;
+    min-height: 300px;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .container {
+    padding: 30px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  input {
+    font-size: 18px;
+  }
+
+  button {
+    font-size: 20px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .container {
+    max-width: 600px;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .container {
+    width: 90%;
+    height: auto;
+    min-height: 300px;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .container {
+    max-width: 700px;
+  }
+}
+
+/* Landscape orientation for phones */
+@media only screen and (max-height: 500px) and (orientation: landscape) {
+  .container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  h1, .horizontal-container, .answer-container, button {
+    width: 45%;
+  }
 }
